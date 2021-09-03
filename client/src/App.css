@@ -1,0 +1,60 @@
+.App {
+  display: flex;
+  justify-content: center;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user {
+  margin-top: 50px;
+  box-shadow:  0 0 10px rgba(35, 100, 153, 0.849);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.btn {
+  background-color: rgb(194, 51, 63);
+  color: white;
+  height: 50px;
+  width: 165px;
+  /* margin-left: 25px; */
+  margin-right: 41px;
+  margin-top: 26px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.btn__login:hover,
+.btn:focus{
+  background-color: rgb(224, 60, 74)
+}
+
+.btn__login {
+  background-color:rgb(86, 175, 163);
+}
+.btn__login:hover,
+.btn__login:focus{
+  background-color: rgb(105, 214, 200);
+}
+
+
+.user__item {
+  font-size: 20pt;
+}
+
+.login_item{
+  font-size: 20pt;
+}
+
+.input {
+  height: 25px;
+  font-size: 20pt;
+}
