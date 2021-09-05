@@ -34,8 +34,8 @@ export const  AuthProvider = ({ children }) => {
             try{
                 setLoading((prevState) =>({...prevState, post:'request'}));
                 const response = await ApiService.postLogin(email, password);
-                localStorage.setItem('token', response.data.token);
-                setCurrentUser(response.data.email);
+                localStorage.setItem('token', response.data[0].token);
+                setCurrentUser(response.data);
                 setLoading((prevState) =>({...prevState, post:'succes'}));
             } catch(e) {
                 console.log(e);
@@ -50,13 +50,12 @@ export const  AuthProvider = ({ children }) => {
             try{
                 setLoading((prevState) =>({...prevState, get:'request'}));
                 const response = await ApiService.getAuth();
-                console.log(response)
-                setCurrentUser(response.data.user);
-                localStorage.setItem('token', response.data.token);
+                console.log(response.data);
+                setCurrentUser(response.data);
                 setLoading((prevState) =>({...prevState, get:'succes'}));
             } catch(e) {
                 console.log(e);
-                localStorage.removeItem('token');
+                /* localStorage.removeItem('token'); */
                 setLoading((prevState) =>({...prevState, get:'fail'}));
             }
               

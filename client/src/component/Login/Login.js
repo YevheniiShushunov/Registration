@@ -3,6 +3,7 @@ import { useAuth } from '../AuthContext';
 import { useHistory } from 'react-router';
 import { RequestState } from '../requests/RequestState';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export const Login = () => {
     const { login, currentUser } = useAuth();
@@ -42,18 +43,19 @@ export const Login = () => {
     return (
         <div className='login user'>
             <h1>Input</h1>
-            <div className='login_item'>
+            <div className='fonts'>
                 <div>Login or email adress :</div> 
                     <input type="text" value={email} placeholder='login or email' onChange={handleChangeLogin} className='input'/>
                 </div>
             <div>
-            <div className='login_item'>
+            <div className='fonts'>
                 <div>Password :</div>
                     <input type="password" value={password} placeholder='password'onChange={handleChangePassword} className='input'/>
                 </div>
             </div>
             
             <button className='btn btn__login ' onClick={handleLogin}>LogIn</button>
+            <div className='fonts'>Haven't account? <Link to='/registration'>SignUp</Link></div>
         </div>
     )
 }

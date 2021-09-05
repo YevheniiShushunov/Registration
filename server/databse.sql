@@ -1,14 +1,13 @@
 CREATE TABLE user (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR (20) UNIQUE ,
+    email VARCHAR (40) UNIQUE ,
     login VARCHAR (20),
-    real_name VARCHAR(20),
-    password VARCHAR(20),
+    real_name VARCHAR(40),
+    password VARCHAR(80),
     birth_date DATE,
-    county_name VARCHAR(40),
+    country VARCHAR(40),
     registration TIMESTAMP,
-    agree_condition BOOLEAN DEFAULT fals;
-    FOREIGN KEY county_name REFERENCES country(name)
+    agree_condition BOOLEAN DEFAULT false
 )
 
 CREATE TABLE country (

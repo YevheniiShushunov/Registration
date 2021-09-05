@@ -1,3 +1,8 @@
+.fonts{
+  font-size: 25px;
+  margin-left: 0;
+} 
+
 .App {
   display: flex;
   justify-content: center;
@@ -45,16 +50,48 @@
   background-color: rgb(105, 214, 200);
 }
 
+.redirect-button{
+  background-color:rgba(35, 100, 153, 0.849)
+}
+
 
 .user__item {
   font-size: 20pt;
 }
 
-.login_item{
-  font-size: 20pt;
-}
 
 .input {
-  height: 25px;
+  height: 28px;
   font-size: 20pt;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+.select {
+  height: 52px;
+  width: 380px;
+  outline: none;
+  border-radius: 3px;
+  /* border: none; */
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.check {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.checkbox{
+  display: flex;
+  transform:scale(2.0);
+  opacity:0.9;
+  cursor:pointer;
+  margin-right: 10px;
+  
+}
+
+.check__title{
+  font-size: 18pt;
 }

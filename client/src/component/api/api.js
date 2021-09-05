@@ -7,16 +7,20 @@ const instance = axios.create ({
 })
 
 export const ApiService = {
-    addUser: (email, login, real_name, password, birth_date, county, agree_condition) => {
-        return instance.post('/register', {email, login, real_name, password, birth_date, county, agree_condition})
+    addUser: (data) => {
+        return instance.post('/register', {data});
     },
 
 
     getAuth: () => {
-        return instance.post('auth', {headers: {Authorization:`Bearer ${localStorage.getItem('token')}`}});
+        return instance.get('auth', {headers: {Authorization:`Bearer ${localStorage.getItem('token')}`}});
     },
     
     postLogin: (email, password) => {
         return instance.post('login', {email, password});
-    }, 
+    },
+    
+    getCountries: () => {
+        return instance.get('countries');
+    }
 }

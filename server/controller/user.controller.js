@@ -5,26 +5,29 @@ const saltRounds = 8;
 
 class UserController {
     async signUp (req, res) {
-        const {email, password} = req.body;
+        const {email, login, real_name, password, birth_date, country, agree_condition} = req.body.data;
+        console.log(req.body)
         const hashPassword = await bcrypt.hash(password, saltRounds);
 
-        await db.query(`INSERT INTO user (email, password,  
-            registration) values(?, ?,NOW());`, 
-                 [email,hashPassword],
-                    (err, result) => {
-                       console.log(err);   
+        await db.query(`INSERT INTO user (email, login, real_name, password, birth_date, country, registration, agree_condition) 
+            VALUES(?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP(), ?);`, [email, login, real_name, hashPassword, birth_date, country, agree_condition],
+                    (err,rows) => {
+                        if(err){
+                            console.log(err);
+                            res.send(err);
+                        }else{
+
+                            res.json({status:'ok'});
+                        }
                     })
-                
-        res.json('ok');
-        console.log('user created');
+    console.log('user created');
     }
 
     async signIn (req, res) {
-        const {email} = req.body;
+        const {email, login} = req.body;
         await db.query(
-            `SELECT * FROM user WHERE email = ?;`, [email],
+            `SELECT * FROM user WHERE email OR login = ?;`, [email, login],
             (err, rows, fields) => {
-                console.log(rows)
                 if(err) {
                     res.send(err);
                 } else if (rows.length <= 0 ){
@@ -33,15 +36,17 @@ class UserController {
                     const row = JSON.parse(JSON.stringify(rows));
                     row.map(async rw => {
                         const password =  await bcrypt.compare(req.body.password, rw.password);
-                        console.log(password)
                         if(password) {
                             const token = jwt.sign({
                                 userId: rw.id,
                                 email: rw.email
                             }, process.env.jwt, {expiresIn: 120*120} );
-                            res.json({token,
-                                email:req.body.email
-                            });
+                            res.json([{token,
+                                id: rw.id,
+                                email:rw.email,
+                                login: rw.login,
+                                real_name: rw.real_name
+                            }]);
                         } else {
                             res.json({message:`wrong password`});
                         }
@@ -53,22 +58,22 @@ class UserController {
     }
 
     async auth (req, res) {
-        
-           /*  const token = jwt.sign({
-                userId: req.body.id,
-                email: req.body.email,
-                
-            }, process.env.jwt, {expiresIn: 120*120} ); */
-            res.send(req.user.profile)
-            /* res.json({'profile': req.body.user}); */
-        
+        console.log(req.user);
+            res.send(req.user)  
     }
     
     
 
     async getCountries (req, res) {
-        const countries = await db.query("SELECT * FROM country");
-        res.json(countries);
+        await db.query("SELECT * FROM country",
+            (err, rows) => {
+                if(err) {
+                    console.log(err)
+                }else{
+                res.json(rows);
+                } 
+            }
+        )  
     }
 }
 

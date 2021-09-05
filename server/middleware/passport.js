@@ -12,18 +12,18 @@ const pasport = passport => {
     passport.use(
         new JwtStrategy(options, (jwt_payload, done) => {
             try {
-                db.query("SELECT id, email FROM user WHERE id = ?",
+                db.query("SELECT id, email, login, real_name FROM user WHERE id = ?",
                 [jwt_payload.userId], 
                     (error, rows, fields) => {
                     if(error) {
-                       return done(error, false);
+                        done(error, false);
                     } else {
                         const user = rows
                         if(user) {
                             console.log(user)
-                            return done(null, user)
+                            done(null, user)
                         } else {
-                            return done(null, false)
+                             done(null, false)
                         }
                     }
                 })
