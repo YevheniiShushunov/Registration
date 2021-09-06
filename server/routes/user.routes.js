@@ -9,6 +9,4 @@ router.get('/auth',pasport.authenticate('jwt', {session: false}), UserController
 router.post('/login', UserController.signIn);
 router.get('/countries', UserController.getCountries);
 
-
-
 module.exports = router;

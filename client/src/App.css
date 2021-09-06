@@ -27,7 +27,6 @@
   color: white;
   height: 50px;
   width: 165px;
-  /* margin-left: 25px; */
   margin-right: 41px;
   margin-top: 26px;
   border-radius: 5px;
@@ -72,7 +71,6 @@
   width: 380px;
   outline: none;
   border-radius: 3px;
-  /* border: none; */
   font-size: 20px;
   margin-top: 10px;
 }
