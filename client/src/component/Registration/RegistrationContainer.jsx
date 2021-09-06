@@ -68,7 +68,6 @@ export const  RegistrationContainer = () => {
 
     useEffect(() => {
         countryList();
-        return console.log('done');
     },[]);
 
     return (
@@ -79,6 +78,7 @@ export const  RegistrationContainer = () => {
             country={country}
             userData={userData}
             setUserData={setUserData}
+            state={rsState}
             />
         </Preloader>
             

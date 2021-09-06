@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { Preloader } from './preloader/Preloader';
 import { ApiService } from './api/api';
+import { RequestState } from './requests/RequestState';
 
 
 export const AuthContext = React.createContext();
@@ -12,17 +13,16 @@ export function useAuth() {
 export const  AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState({
-        get: 'none',
-        post: 'none',
+        get: RequestState.none,
+        post: RequestState.none,
     });
-    const [loginStatus, setLoginStatus] = useState(false);
 
     const signup = async (email, login, real_name, password, birth_date, county, agree_condition) => {
-        if (loading.post !== 'request') {
+        if (loading.post !== RequestState.request) {
             try{
-                setLoading({post : 'request'});
+                setLoading({post : RequestState.request});
                 await ApiService.addUser(email, login, real_name, password, birth_date, county, agree_condition);
-                setLoading({post : 'succes'});
+                setLoading({post : RequestState.success});
             } catch(e) {
                 console.log(e);
             } 
@@ -30,33 +30,31 @@ export const  AuthProvider = ({ children }) => {
     }
 
     const login = async (email, password) => {
-        if(loading.post !== 'request'){
+        if(loading.post !== RequestState.request){
             try{
-                setLoading((prevState) =>({...prevState, post:'request'}));
+                setLoading((prevState) =>({...prevState, post:RequestState.request}));
                 const response = await ApiService.postLogin(email, password);
                 localStorage.setItem('token', response.data[0].token);
                 setCurrentUser(response.data);
-                setLoading((prevState) =>({...prevState, post:'succes'}));
+                setLoading((prevState) =>({...prevState, post:RequestState.success}));
             } catch(e) {
                 console.log(e);
                 localStorage.removeItem('token');
-                setLoading((prevState) =>({...prevState, post:'fail'}));
+                setLoading((prevState) =>({...prevState, post:RequestState.failure}));
             }    
         }
     }
 
     const auth = async () => {
-        if(loading.get !== 'request'){
+        if(loading.get !== RequestState.request){
             try{
-                setLoading((prevState) =>({...prevState, get:'request'}));
+                setLoading((prevState) =>({...prevState, get:RequestState.request}));
                 const response = await ApiService.getAuth();
-                console.log(response.data);
                 setCurrentUser(response.data);
-                setLoading((prevState) =>({...prevState, get:'succes'}));
+                setLoading((prevState) =>({...prevState, get:RequestState.success}));
             } catch(e) {
                 console.log(e);
-                /* localStorage.removeItem('token'); */
-                setLoading((prevState) =>({...prevState, get:'fail'}));
+                setLoading((prevState) =>({...prevState, get:RequestState.failure}));
             }
               
         }
@@ -65,7 +63,6 @@ export const  AuthProvider = ({ children }) => {
     console.log(currentUser);
     
     const logout = () => {
-        console.log("called")
         setCurrentUser(null);
         localStorage.removeItem('token');
     }
@@ -78,13 +75,12 @@ export const  AuthProvider = ({ children }) => {
         currentUser,
         login,
         signup,
-        loginStatus,
         logout
     }
 
     return (
         <AuthContext.Provider value={value}>
-            <Preloader inProgress={loading.post === 'request' || loading.get === 'request'}>
+            <Preloader inProgress={loading.post === RequestState.request || loading.get === RequestState.request}>
                 {children}
             </Preloader>
         </AuthContext.Provider>

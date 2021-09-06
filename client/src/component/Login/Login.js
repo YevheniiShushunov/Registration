@@ -28,7 +28,7 @@ export const Login = () => {
                 await login(email, password);
                 setPassword('');
                 history.push('/');
-                setRsState(RequestState.succes);            
+                setRsState(RequestState.success);            
             } catch(e) {
                 console.log('wrong user data');
                 setRsState(RequestState.failure); 

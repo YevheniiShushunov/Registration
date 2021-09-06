@@ -1,10 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import '../../App.css';
+import { RequestState } from '../requests/RequestState';
 
-export const Registration = ({onUser, country=[], userData, setUserData}) => {
+export const Registration = ({onUser, country=[], userData, setUserData, state}) => {
     const history = useHistory();
-    console.log(userData)
 
     const countries = () => {
         return country.map(itm =>(
@@ -76,7 +76,7 @@ export const Registration = ({onUser, country=[], userData, setUserData}) => {
                     <input name='agree' type='checkbox' onChange={handleChangeAgree} className="checkbox" />
                     <div className="check__title">Agree with terms and conditions</div>
                 </div>
-                <button className="btn btn__login" onClick={onUser}>SignUp</button>
+                <button disabled={state === RequestState.request} className="btn btn__login" onClick={onUser}>SignUp</button>
                 <button className="btn btn__login redirect-button" onClick={() => history.push('/login')}>Go to logIn</button>
             </div> 
         </div>
