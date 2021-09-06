@@ -22,7 +22,7 @@ export const  RegistrationContainer = () => {
     const postUser = async () => {
         if(!userData.email || !userData.login  
             || !userData.real_name || !userData.password ){
-                alert('Поле не может быть пустым')
+                alert('Поле не может быть пустым');
             }
         if(!userData.terms_and_conditions){
             alert('you must aply terms and conditions');
