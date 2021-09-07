@@ -29,8 +29,9 @@ export const Login = () => {
                 setPassword('');
                 history.push('/');
                 setRsState(RequestState.success);            
-            } catch(e) {
-                console.log('wrong user data');
+            }catch(e) {
+                console.log(e);
+                alert('wrong user data or password');
                 setRsState(RequestState.failure); 
             }
         }    

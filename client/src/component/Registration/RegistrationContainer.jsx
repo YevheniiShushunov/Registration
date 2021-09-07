@@ -15,25 +15,23 @@ export const  RegistrationContainer = () => {
         password: '',
         birth_date:'',
         country: 'England',
-        terms_and_conditions: ''
+        agree_condition: ''
     });
     const history = useHistory();
+    const postUser = async (e) => {
+        e.preventDefault();
+        
 
-    const postUser = async () => {
         if(!userData.email || !userData.login  
             || !userData.real_name || !userData.password ){
                 alert('Поле не может быть пустым');
             }
-        if(!userData.terms_and_conditions){
+        if(!userData.agree_condition){
             alert('you must aply terms and conditions');
         }
-
-        if(emailValidation(userData.email) === false) {
-            alert('введите корректно электронную почту');
-        }
-
-        if(rsState !== RequestState.reques && userData.email.length > 0 && userData.login.length > 0 
-            && userData.real_name.length > 0 && userData.password.length > 0 && userData.birth_date.length > 0 && userData.terms_and_conditions === true){
+           
+        if(rsState !== RequestState.request && userData.email.length > 0 && userData.login.length > 0 
+            && userData.real_name.length > 0 && userData.password.length > 0 && userData.birth_date.length > 0 && userData.agree_condition === true && emailValidation(userData.email)){
             try{
                 setRsState(RequestState.request && userData)
                 await ApiService.addUser(userData);
@@ -41,15 +39,21 @@ export const  RegistrationContainer = () => {
                 history.push('/');
             } catch(e) {
                 console.log(e);
+                alert('Пользователь существует')
                 setRsState(RequestState.failure);
             }
         }
     }
 
-    const emailValidation = (email) => {
-        const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return reg.test(String(email).toLocaleLowerCase);
 
+    const emailValidation =  (email) => {
+        const reg = /\S+@\S+\.\S+/;
+        if (reg.test(email)){
+            return true
+        } else {
+            alert('введите корректно электронную почту');
+            return false;
+        }  
     }
 
     const countryList = async () => {

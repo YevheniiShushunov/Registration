@@ -5,8 +5,6 @@ const userRouter = require('./routes/user.routes');
 const cors = require('cors');
 const passport = require('passport');
 
-
-
 const app = express();
 
 app.use(express.urlencoded({ extended: true }))
@@ -19,5 +17,10 @@ app.use(
 app.use(passport.initialize());
 require('./middleware/passport')(passport);
 
-app.use('/api', userRouter);
+app.get('/login', function(req, res) {
+  res.redirect('/');
+});
+
+
+app.use('/', userRouter);
 app.listen(PORT, () => console.log(`server working on port ${PORT}`));

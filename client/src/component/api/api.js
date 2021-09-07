@@ -2,13 +2,13 @@ import axios from 'axios';
 
 const instance = axios.create ({
     withCredentials: true,
-    baseURL: 'http://localhost:3001/api/',
+    baseURL: 'http://localhost:3001/',
     
 })
 
 export const ApiService = {
     addUser: (data) => {
-        return instance.post('/register', {data});
+        return instance.post('register', {data});
     },
 
 

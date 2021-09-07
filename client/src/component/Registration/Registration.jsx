@@ -12,7 +12,7 @@ export const Registration = ({onUser, country=[], userData, setUserData, state})
         ))
     }
 
-    const handleChangeName = (e) => {
+    const handleChangeEmail = (e) => {
         setUserData((prevState) => ({...prevState, email: e.target.value}));
     }
 
@@ -39,7 +39,7 @@ export const Registration = ({onUser, country=[], userData, setUserData, state})
     const handleChangeAgree = (e) => {
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        setUserData((prevState) => ({...prevState, terms_and_conditions: value}));
+        setUserData((prevState) => ({...prevState, agree_condition: value}));
     }
 
     return (
@@ -48,7 +48,7 @@ export const Registration = ({onUser, country=[], userData, setUserData, state})
                 <div><h1>Input registration data</h1></div>
                 <div className='fonts'>
                     <div>Email</div>
-                    <input className='input' value={userData.email} onChange={handleChangeName}></input>
+                    <input className='input' value={userData.email} onChange={handleChangeEmail}></input>
                 </div>
                 <div className='fonts'>
                     <div >Login</div>

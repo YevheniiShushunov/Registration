@@ -6,7 +6,6 @@ const saltRounds = 8;
 class UserController {
     async signUp (req, res) {
         const {email, login, real_name, password, birth_date, country, agree_condition} = req.body.data;
-        console.log(req.body)
         const hashPassword = await bcrypt.hash(password, saltRounds);
 
         await db.query(`INSERT INTO user (email, login, real_name, password, birth_date, country, registration, agree_condition) 
@@ -14,9 +13,8 @@ class UserController {
                     (err,rows) => {
                         if(err){
                             console.log(err);
-                            res.send(err);
+                            res.send(Error);
                         }else{
-
                             res.json({status:'ok'});
                         }
                     })
@@ -31,7 +29,7 @@ class UserController {
                 if(err) {
                     res.send(err);
                 } else if (rows.length <= 0 ){
-                    res.send({message: `user not found`});
+                    res.send(Error);
                 } else {
                     const row = JSON.parse(JSON.stringify(rows));
                     row.map(async rw => {
@@ -47,8 +45,8 @@ class UserController {
                                 login: rw.login,
                                 real_name: rw.real_name
                             }]);
-                        } else {
-                            res.json({message:`wrong password`});
+                        }else{
+                            res.json(Error);
                         }
                         return true;
                     })
@@ -62,8 +60,6 @@ class UserController {
             res.send(req.user)  
     }
     
-    
-
     async getCountries (req, res) {
         await db.query("SELECT * FROM country",
             (err, rows) => {
@@ -75,6 +71,8 @@ class UserController {
             }
         )  
     }
+
+    
 }
 
 module.exports = new UserController;
